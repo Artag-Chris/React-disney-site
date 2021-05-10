@@ -21,7 +21,7 @@ function App() {
 
            <Login />
          </Route>
-         <Route path= "/detail">
+         <Route path= "/Detail/:id">
           <Detail />
          </Route>
          <Route path= "/">
