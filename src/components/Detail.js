@@ -3,6 +3,8 @@ import styled from "styled-components"
 import { useParams } from "react-router-dom"
 import db from "../firebase"
 //import { useHistory } from 'react-router-dom';
+/*aqui aprendi mucho del useEffect y como se usa con los id y coloca 
+diferentes datos por cada diferente child fue sin duda la parte mas dura de este proyecto me demore 2 dias buscando soluciones a mis problemas pero al final lo logre nota mental practicar mas sobre hooks y reducers*/ 
 
 function Detail() {
     const { id } = useParams();
@@ -19,7 +21,7 @@ function Detail() {
         if (doc.exists) {
           setDetailData(doc.data());
         } else {
-          console.log("no such document in firebase 🔥");
+          console.log("error 404 movie not found");
         }
       })
       .catch((error) => {

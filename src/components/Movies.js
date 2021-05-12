@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { selectMovies } from "../features/movie/movieSlice"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
+//esta parte fue un reto junto con detail debo profundisar mas
  
 function Movies() {
     const movies =  useSelector( selectMovies );

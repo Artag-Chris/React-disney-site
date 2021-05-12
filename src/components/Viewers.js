@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from "styled-components"
+//aun se puede mejorar esta parte
 
 function Viewers() {
     return (

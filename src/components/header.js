@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { auth, provider} from "../firebase"
 import { useHistory } from 'react-router-dom';
 import { useEffect } from "react"
+// eslint molestaba mucho asi que use la salida facil 
 
 
 

@@ -6,6 +6,7 @@ import Viewers from './Viewers'
 import db from "../firebase"
 import { useDispatch } from "react-redux"
 import { setMovies } from "../features/movie/movieSlice"
+//amo react por lo facil que es crear cosas con distintos componentes
 
 function Home() {
     
