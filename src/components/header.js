@@ -1,12 +1,75 @@
 import React from 'react'
 import styled from "styled-components"
+import {selectUserName, selectUserPhoto, setUserLogin, setSignOut} from "../features/user/userSlice"
+import { useSelector, useDispatch } from "react-redux"
+import { auth, provider} from "../firebase"
+import { useHistory } from 'react-router-dom';
+import { useEffect } from "react"
+
 
 
 function header() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const userName = useSelector(selectUserName);
+   // eslint-disable-next-line react-hooks/rules-of-hooks
+   const userPhoto = useSelector(selectUserPhoto);
+   
+   // eslint-disable-next-line react-hooks/rules-of-hooks
+   const dispatch = useDispatch()
+   // eslint-disable-next-line react-hooks/rules-of-hooks
+   const history = useHistory()
+
+   // eslint-disable-next-line react-hooks/rules-of-hooks
+   useEffect(()=>{
+    auth.onAuthStateChanged(async(user)=>{
+        if(user){
+             dispatch(setUserLogin({
+               name: user.displayName,
+               email: user.email,
+               photo: user.photoURL
+
+           }))
+           history.push("/")
+        }
+    })
+   
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+   },[])
+
+
+   const signIn = ()=>{
+       auth.signInWithPopup(provider)
+       .then((result)=>{
+           let user = result.user
+           dispatch(setUserLogin({
+               name: user.displayName,
+               email: user.email,
+               photo: user.photoURL
+
+           }))
+           history.push("/")
+       })
+   }
+
+   const signOut = ()=>{
+     auth.signOut()
+     .then(()=>{
+         dispatch(setSignOut())
+         history.push("/login")
+     })
+   }
+
     return (
+
         <Nav>
             <Logo src="/images/logo.svg" />
-            <NavMenu>
+            { !userName ? (<LoginContainer>
+                <Login onClick={signIn}>Login</Login>
+
+            </LoginContainer> ) :
+            
+            <> 
+             <NavMenu>
                 <a href="header">
                     <img src="/images/home-icon.svg" alt="" />
                     <Span>HOME</Span>
@@ -28,7 +91,9 @@ function header() {
                     <Span>SERIES</Span>
                 </a>
             </NavMenu>
-            <UserImg src="./images/Chris.png" />
+            <UserImg onClick={signOut} src="./images/Chris.png" />
+            </>}
+           
 
         </Nav>
     )
@@ -91,4 +156,24 @@ width: 40px;
 height: 40px;
 border-radius:50%;
 cursor: pointer;
+`
+const Login = styled.div`
+border: 1px solid #f9f9f9;
+padding: 8px 16px;
+border-radius: 4px;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+background-color: rgba(0,0,0,0.6);
+transition: all 0.2s ease-in-out;
+cursor: pointer;
+&:hover{
+    background-color:#f9f9f9;
+    color:#000;
+    border-color: transparent;
+}
+`
+const LoginContainer = styled.div`
+flex:1;
+display:flex;
+justify-content: flex-end;
 `
